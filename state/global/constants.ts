@@ -1,0 +1,2 @@
+export const UPDATE_LOADING = 'UPDATE_LOADING'
+export const UPDATE_STEP = 'UPDATE_STEP'
