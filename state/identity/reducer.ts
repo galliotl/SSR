@@ -6,15 +6,9 @@ const reducer = (state = initialState, action: IdentityAction): IdentityStepStat
     case 'UPDATE_IDENTITY':
       return {
         ...state,
-        age: {
-          value: action.age,
-        },
-        firstName: {
-          value: action.firstname,
-        },
-        lastName: {
-          value: action.lastname,
-        },
+        age: action.age,
+        firstName: action.firstname,
+        lastName: action.lastname,
       }
     default:
       return state

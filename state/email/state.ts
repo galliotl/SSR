@@ -2,7 +2,6 @@ import {EmailStepState} from './types'
 
 const initialEmailState: EmailStepState = {
   name: 'email',
-  value: '',
-  error: null,
+  email: '',
 }
 export default initialEmailState

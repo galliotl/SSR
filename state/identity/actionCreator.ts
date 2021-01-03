@@ -8,6 +8,9 @@ export const sendIdentity = (
   age: number
 ): AppThunk<void> => dispatch => {
   dispatch(updateIdentity(firstname, lastname, age))
-  console.log('hehe')
   dispatch(updateStep('password'))
+}
+
+export const goBack = (): AppThunk<void> => dispatch => {
+  dispatch(updateStep('email'))
 }

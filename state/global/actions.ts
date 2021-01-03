@@ -1,5 +1,5 @@
-import {UPDATE_LOADING, UPDATE_STEP} from './constants'
-import {UpdateStepAction, UpdateLoadingAction} from './types'
+import {UPDATE_JOUREY, UPDATE_LOADING, UPDATE_STEP} from './constants'
+import {UpdateStepAction, UpdateLoadingAction, JourneyType, UpdateJourneyTypeAction} from './types'
 import {Step} from '@state/types'
 
 const setStepToPassword = (): UpdateStepAction => ({
@@ -37,4 +37,9 @@ export const updateStep = (step: Step): UpdateStepAction => {
 export const updateLoading = (isLoading: boolean): UpdateLoadingAction => ({
   type: UPDATE_LOADING,
   loading: isLoading,
+})
+
+export const updateJourneyType = (journey: JourneyType): UpdateJourneyTypeAction => ({
+  type: UPDATE_JOUREY,
+  journeyType: journey,
 })

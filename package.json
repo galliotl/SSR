@@ -10,8 +10,10 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
+    "@galliotl/authsdk": "0.0.0",
     "@geist-ui/react": "^2.0.2",
     "@geist-ui/react-icons": "^1.0.0",
+    "axios": "^0.21.0",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",

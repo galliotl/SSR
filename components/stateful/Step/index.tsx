@@ -1,22 +1,20 @@
 import React from 'react'
+import {getGlobalState} from '@state/global/selectors'
 import {useSelector} from 'react-redux'
-
-// State
-import {getStepState} from '@state/selectors'
+import {ucfirst} from '@modules/utils/typography'
 
 // Components
-import {Card, Divider} from '@geist-ui/react'
+import {Card, Text} from '@geist-ui/react'
 import Email from './Email'
 import Identity from './Identity'
 import Password from './Password'
 import Success from './Success'
-import Stepper from '@components/stateful/Stepper'
 
 const Step: React.FunctionComponent = () => {
-  const {name} = useSelector(getStepState)
+  const {step, journeyType} = useSelector(getGlobalState)
 
   let StepComponent
-  switch (name) {
+  switch (step) {
     case 'email':
       StepComponent = Email
       break
@@ -30,15 +28,12 @@ const Step: React.FunctionComponent = () => {
       StepComponent = Success
       break
     default:
-      throw new Error('unknown name ' + name)
+      throw new Error('unknown name ' + step)
   }
 
   return (
-    <Card>
-      <Card.Content>
-        <Stepper />
-      </Card.Content>
-      <Divider />
+    <Card shadow>
+      <Text h1>{ucfirst(journeyType || 'Login or Register')}</Text>
       <StepComponent />
     </Card>
   )

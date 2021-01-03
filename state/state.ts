@@ -9,6 +9,7 @@ const initialState: AppState = {
   email: initialEmailState,
   identity: initialIdentityState,
   password: initialPasswordState,
+  success: {name: 'success'},
 }
 
 export default initialState

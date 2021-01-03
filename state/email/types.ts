@@ -1,10 +1,9 @@
-import {StepState, StepStates} from '@state/types'
+import {BaseStepState} from '@state/types'
 import {UPDATE_EMAIL} from './constants'
 
-export interface EmailStepState extends StepState {
+export type EmailStepState = BaseStepState & {
   name: 'email'
-  error: unknown
-  value?: string
+  email: string
 }
 
 /** ACTIONS */
@@ -14,8 +13,3 @@ export type UpdateEmailAction = {
 }
 
 export type EmailAction = UpdateEmailAction
-
-/** GUARDS */
-export const isEmailState = (state: StepStates): state is EmailStepState => {
-  return (state as EmailStepState).name === 'email'
-}

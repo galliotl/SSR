@@ -4,22 +4,20 @@ import {IdentityAction, IdentityStepState} from './identity/types'
 import {PasswordAction, PasswordStepState} from './password/types'
 import {ThunkAction} from 'redux-thunk'
 
-/** COMMON */
+/* COMMON */
 export type Step = 'email' | 'password' | 'identity' | 'success'
-
-export interface StepState extends Record<string, unknown> {
+export type BaseStepState = {
   name: Step
   previousPath?: string
 }
 
-export type StepStates = EmailStepState | IdentityStepState | PasswordStepState
-
 /** STATE */
-export interface AppState {
+export type AppState = {
   app: GlobalState
   email: EmailStepState
   identity: IdentityStepState
   password: PasswordStepState
+  success: BaseStepState
 }
 
 /** ACTIONS */

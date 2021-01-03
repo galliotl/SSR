@@ -1,3 +1,4 @@
+import {AppState} from '@state/types'
 import {GlobalState} from './types'
 
-export const isLoading = (state: GlobalState): boolean => state.loading
+export const getGlobalState = (state: AppState): GlobalState => state.app

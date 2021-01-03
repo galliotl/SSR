@@ -1,16 +1,23 @@
-import {checkEmail} from '@modules/email'
 import {updateEmail} from './actions'
-import {updateLoading, updateStep} from '@state/global/actions'
+import {updateJourneyType, updateLoading, updateStep} from '@state/global/actions'
 import {AppThunk} from '@state/types'
+import {checkEmailFormat} from '@modules/form/validators'
+import {userExists} from '@modules/api/auth'
 
 export const sendEmail = (email: string): AppThunk<Promise<void>> => async dispatch => {
   dispatch(updateLoading(true))
-  const isValid = await checkEmail(email)
-  if (isValid) {
+
+  if (checkEmailFormat(email)) {
     dispatch(updateEmail(email))
-    dispatch(updateLoading(false))
-    dispatch(updateStep('identity'))
-  } else {
-    dispatch(updateLoading(false))
+
+    try {
+      await userExists(email)
+      dispatch(updateJourneyType('login'))
+      dispatch(updateStep('password'))
+    } catch {
+      dispatch(updateJourneyType('register'))
+      dispatch(updateStep('identity'))
+    }
   }
+  dispatch(updateLoading(false))
 }

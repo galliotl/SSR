@@ -1,7 +1,9 @@
-import React, {useCallback, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {getAllState} from '@state/selectors'
+import React, {useCallback, useEffect, useState} from 'react'
+import {checkEmailFormat} from '@modules/form/validators'
+import {getEmailStepState} from '@state/selectors'
 import {sendEmail} from '@state/email/actionsCreator'
+import {useDispatch, useSelector} from 'react-redux'
+import {getLoginStatus} from '@galliotl/authsdk'
 
 // Components
 import {Card, Grid, Input, Text} from '@geist-ui/react'
@@ -16,18 +18,29 @@ import * as animation from '@animations/email.json'
 const Email: React.FunctionComponent = () => {
   const dispatch = useDispatch()
 
-  const {app, email} = useSelector(getAllState)
-  const {error, value} = email
+  // State
+  const {loading, email} = useSelector(getEmailStepState)
+  const [error, updateError] = useState('')
+
+  useEffect(() => {
+    getLoginStatus().then(loginStatus => {
+      console.log(loginStatus)
+    })
+  }, [])
 
   // Fields controllers
-  const [emailValue, updateEmail] = useState(value || '')
+  const [emailValue, updateEmail] = useState(email)
   const onEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     updateEmail(e.target.value)
   }, [])
 
   const onClick = useCallback(() => {
-    dispatch(sendEmail(emailValue))
-  }, [dispatch])
+    if (checkEmailFormat(emailValue)) {
+      dispatch(sendEmail(emailValue))
+    } else {
+      updateError('Wrong email format')
+    }
+  }, [dispatch, emailValue])
 
   return (
     <>
@@ -37,7 +50,7 @@ const Email: React.FunctionComponent = () => {
           width="100%"
           value={emailValue}
           onChange={onEmailChange}
-          status={error && 'error'}
+          status={error ? 'error' : 'default'}
           type="mail"
           iconRight={<Mail />}
         >
@@ -46,10 +59,10 @@ const Email: React.FunctionComponent = () => {
       </Card.Content>
       <Card.Footer disableAutoMargin>
         <Grid xs={24} sm={12} justify="center" style={{display: 'flex'}}>
-          <Previous />
+          <Previous disabled />
         </Grid>
         <Grid xs={24} sm={12} justify="center" style={{display: 'flex'}}>
-          <Next loading={app.loading} onClick={onClick} />
+          <Next loading={loading} onClick={onClick} />
         </Grid>
       </Card.Footer>
     </>

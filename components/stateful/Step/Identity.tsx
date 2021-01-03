@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react'
+import {getIdentityStepState} from '@state/selectors'
+import {goBack, sendIdentity} from '@state/identity/actionCreator'
 import {useDispatch, useSelector} from 'react-redux'
-import {getAllState} from '@state/selectors'
-import {sendIdentity} from '@state/identity/actionCreator'
 
 // Components
 import {Card, Grid, Input, Text} from '@geist-ui/react'
@@ -15,28 +15,32 @@ import * as identityAnimation from '@animations/identity.json'
 
 const Identity: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const {app, identity} = useSelector(getAllState)
-  const {firstName, lastName, age} = identity
+
+  // State
+  const {loading, firstName, lastName, age} = useSelector(getIdentityStepState)
 
   // Fields controllers
-  const [firstnameValue, updateFirstname] = useState(firstName.value || '')
+  const [firstnameValue, updateFirstname] = useState(firstName)
   const onFirstnameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     updateFirstname(e.target.value)
   }, [])
 
-  const [lastnameValue, updateLastname] = useState(lastName.value || '')
+  const [lastnameValue, updateLastname] = useState(lastName)
   const onLastnameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     updateLastname(e.target.value)
   }, [])
 
-  const [ageValue, updateAge] = useState(age.value || 0)
+  const [ageValue, updateAge] = useState(age)
   const onAgeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     updateAge(parseInt(e.target.value))
   }, [])
 
-  const onClick = useCallback(() => {
-    console.log('clicked')
+  const onNextClick = useCallback(() => {
     dispatch(sendIdentity(firstnameValue, lastnameValue, ageValue))
+  }, [dispatch, firstnameValue, lastnameValue, ageValue])
+
+  const onPreviousClick = useCallback(() => {
+    dispatch(goBack())
   }, [dispatch])
 
   return (
@@ -67,10 +71,10 @@ const Identity: React.FunctionComponent = () => {
       </Card.Content>
       <Card.Footer disableAutoMargin>
         <Grid xs={24} sm={12} justify="center" style={{display: 'flex'}}>
-          <Previous />
+          <Previous onClick={onPreviousClick} />
         </Grid>
         <Grid xs={24} sm={12} justify="center" style={{display: 'flex'}}>
-          <Next loading={app.loading} onClick={onClick} />
+          <Next loading={loading} onClick={onNextClick} />
         </Grid>
       </Card.Footer>
     </>

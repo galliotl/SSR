@@ -1,10 +1,9 @@
-import {StepState, StepStates} from '@state/types'
+import {BaseStepState} from '@state/types'
 import {UPDATE_PASSWORD} from './constants'
 
-export interface PasswordStepState extends StepState {
+export type PasswordStepState = BaseStepState & {
   name: 'password'
-  error?: unknown
-  value: string
+  password: string
 }
 
 /** ACTIONS */
@@ -14,8 +13,3 @@ export type UpdatePasswordAction = {
   error?: unknown
 }
 export type PasswordAction = UpdatePasswordAction
-
-/** GUARDS */
-export const isPasswordState = (state: StepStates): state is PasswordStepState => {
-  return (state as PasswordStepState).name === 'password'
-}

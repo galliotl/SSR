@@ -7,7 +7,7 @@ const reducer = (state = initialState, action: EmailAction): EmailStepState => {
     case UPDATE_EMAIL:
       return {
         ...state,
-        value: action.value,
+        email: action.value,
       }
     default:
       return state

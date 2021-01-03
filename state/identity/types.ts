@@ -1,20 +1,11 @@
-import {StepState, StepStates} from '@state/types'
+import {BaseStepState} from '@state/types'
 import {UPDATE_IDENTITY} from './constants'
 
-export interface IdentityStepState extends StepState {
+export type IdentityStepState = BaseStepState & {
   name: 'identity'
-  firstName: {
-    value: string
-    error?: unknown
-  }
-  lastName: {
-    value: string
-    error?: unknown
-  }
-  age: {
-    value: number
-    error?: unknown
-  }
+  firstName: string
+  lastName: string
+  age: number
 }
 
 export type UpdateIdentity = {
@@ -25,8 +16,3 @@ export type UpdateIdentity = {
 }
 
 export type IdentityAction = UpdateIdentity
-
-/** GUARDS */
-export const isIdentityState = (state: StepStates): state is IdentityStepState => {
-  return (state as IdentityStepState).name === 'identity'
-}
